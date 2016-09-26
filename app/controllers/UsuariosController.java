@@ -56,17 +56,25 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result detalleUsuario(String id) {
-        return status(Http.Status.NOT_IMPLEMENTED);
+        Usuario usuario = UsuarioDAO.find(id);
+
+        return ok(usuario.toString());
     }
 
     @Transactional
     public Result editaUsuario(String id) {
-        return status(Http.Status.NOT_IMPLEMENTED);
+        Usuario usuario = UsuarioDAO.find(id);
+        
+
+        return ok(usuario.toString());
     }
 
     @Transactional
     public Result borraUsuario(String id) {
-        return status(Http.Status.NOT_IMPLEMENTED);
+        Usuario usuario = UsuarioDAO.find(id);
+
+
+        return ok(usuario.toString());
     }
 
 }
