@@ -56,9 +56,9 @@ public class UsuariosController extends Controller {
           return redirect(controllers.routes.UsuariosController.listaUsuarios());
       }
       Usuario usuario = usuarioForm.get();
-      Logger.debug("Usuario a grabar: " + usuario.toString());
+      Logger.debug("Usuario a modificar: " + usuario.toString());
       usuario = UsuariosService.modificaUsuario(usuario);
-      flash("grabaUsuario", "El usuario se ha modificado correctamente");
+      flash("modificaUsuario", "El usuario se ha modificado correctamente");
       return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
 
@@ -71,26 +71,21 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result editaUsuario(String id) {
-<<<<<<< HEAD
-        Usuario usuario = UsuarioDAO.find(id);
-
-        Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
-        if (usuarioForm.hasErrors()) {
-            return badRequest(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
-        }
-        return ok(id);
-=======
         Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
         return ok(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
->>>>>>> T6-EditarUsuario
     }
 
     @Transactional
     public Result borraUsuario(String id) {
-        Usuario usuario = UsuarioDAO.find(id);
-
-
-        return ok(usuario.toString());
+      Logger.debug("Usuario a borrar: " + id);
+        String salida;
+        if(UsuariosService.deleteUsuario(id)){
+          salida = "si";
+        }
+        else{
+          salida = "no";
+        }
+        return ok(salida);
     }
 
 }
