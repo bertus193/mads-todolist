@@ -23,8 +23,14 @@ public class UsuariosService {
     }
 
     public static boolean deleteUsuario(String id) {
-        // ToDo
-        return false;
+        UsuarioDAO.delete(id);
+        Usuario user = UsuariosService.findUsuario(id);
+        if(user.id != null){
+          return true;
+        }
+        else{
+          return false;
+        }
     }
 
     public static List<Usuario> findAllUsuarios() {
