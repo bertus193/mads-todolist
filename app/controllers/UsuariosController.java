@@ -51,7 +51,15 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result grabaUsuarioModificado() {
-        return status(Http.Status.NOT_IMPLEMENTED);
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+      if (usuarioForm.hasErrors()) {
+          return redirect(controllers.routes.UsuariosController.listaUsuarios());
+      }
+      Usuario usuario = usuarioForm.get();
+      Logger.debug("Usuario a grabar: " + usuario.toString());
+      usuario = UsuariosService.modificaUsuario(usuario);
+      flash("grabaUsuario", "El usuario se ha modificado correctamente");
+      return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
 
     @Transactional
@@ -63,6 +71,7 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result editaUsuario(String id) {
+<<<<<<< HEAD
         Usuario usuario = UsuarioDAO.find(id);
 
         Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
@@ -70,6 +79,10 @@ public class UsuariosController extends Controller {
             return badRequest(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
         }
         return ok(id);
+=======
+        Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+        return ok(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
+>>>>>>> T6-EditarUsuario
     }
 
     @Transactional
