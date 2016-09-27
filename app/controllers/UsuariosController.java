@@ -56,7 +56,7 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result detalleUsuario(String id) {
-        Usuario usuario = UsuarioDAO.find(id);
+        Usuario usuario = UsuariosService.findUsuario(id);
 
         return ok(usuario.toString());
     }
@@ -64,9 +64,12 @@ public class UsuariosController extends Controller {
     @Transactional
     public Result editaUsuario(String id) {
         Usuario usuario = UsuarioDAO.find(id);
-        
 
-        return ok(usuario.toString());
+        Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+        if (usuarioForm.hasErrors()) {
+            return badRequest(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
+        }
+        return ok(id);
     }
 
     @Transactional
