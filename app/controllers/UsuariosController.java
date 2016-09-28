@@ -10,6 +10,8 @@ import static play.libs.Json.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import services.*;
 import models.*;
@@ -71,7 +73,10 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result editaUsuario(String id) {
-        Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+        Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
+        Usuario usuario = UsuariosService.findUsuario(id);
+        usuarioForm = usuarioForm.fill(usuario);
+
         return ok(formModificacionUsuario.render(usuarioForm, "Edita usuario "+id));
     }
 

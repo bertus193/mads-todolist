@@ -25,7 +25,7 @@ public class UsuariosService {
     public static boolean deleteUsuario(String id) {
         UsuarioDAO.delete(id);
         Usuario user = UsuariosService.findUsuario(id);
-        if(user.id != null){
+        if(user != null){
           return true;
         }
         else{
