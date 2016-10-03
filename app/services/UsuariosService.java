@@ -38,4 +38,23 @@ public class UsuariosService {
         Logger.debug("Numero de usuarios: " + lista.size());
         return lista;
     }
+
+    public static boolean loginUsuario(String login, String password){
+      Boolean usuario = UsuarioDAO.loginUser(login, password);
+      if(usuario == true){
+        return true;
+      }
+      else{
+        return false;
+      }
+
+    }
+
+    public static int registroUsuario(String login, String password){
+      int resultado = UsuarioDAO.checkRegisterUser(login, password);
+      if(resultado != 3 && resultado != 2){
+        return 1;
+      }
+      return resultado;
+    }
 }

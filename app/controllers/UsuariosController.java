@@ -93,4 +93,54 @@ public class UsuariosController extends Controller {
         return ok(salida);
     }
 
+    @Transactional
+    public Result login() {
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
+      return ok(formLogin.render(formFactory.form(Usuario.class),""));
+    }
+
+    @Transactional
+    public Result checkLogin() {
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+      if (usuarioForm.hasErrors()) {
+          return redirect(controllers.routes.UsuariosController.login());
+      }
+      Usuario usuario = usuarioForm.get();
+
+      if(UsuariosService.loginUsuario(usuario.login, usuario.password)){
+        return ok("Has iniciado sesion correctamente "+usuario.login+". ");
+      }
+      else{
+        return ok("Los datos no se corresponden o puedes no estar registrado");
+      }
+
+    }
+
+    @Transactional
+    public Result registro(){
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
+      return ok(formRegistro.render(formFactory.form(Usuario.class),""));
+    }
+
+    @Transactional
+    public Result checkRegistro(){
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+      if (usuarioForm.hasErrors()) {
+          return redirect(controllers.routes.UsuariosController.registro());
+      }
+      Usuario usuario = usuarioForm.get();
+
+      int registro = UsuariosService.registroUsuario(usuario.login, usuario.password);
+
+      if(registro == 1){
+        return ok("1Te has registrado correctamente"+usuario.login+". ");
+      }
+      else if(registro == 2){
+        return ok("2Dicho usuario ya esta registrado");
+      }
+      else{
+        return ok("3No existe un usuario con dicho nombre");
+      }
+    }
+
 }
