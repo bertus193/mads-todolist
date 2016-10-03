@@ -1,0 +1,20 @@
+@(loginForm: Form[Usuario], mensaje: String)
+@main("Login") {
+    @if(mensaje != "") {
+        <div class="alert alert-danger">
+            @mensaje
+        </div>
+    }
+    <h1>Login</h1>
+    @helper.form(action = routes.UsuariosController.checkLogin()) {
+        <fieldset>
+            <legend>Usuario @loginForm("id").value</legend>
+            <input type="hidden" name="id" value='@loginForm("id").value' >
+            @helper.inputText(loginForm("login"), '_label -> "Login")
+            @helper.inputPassword(loginForm("password"), '_label -> "Contraseña")
+        </fieldset>
+        <p>
+        <input type="submit" class="btn btn-primary" value="Login!">
+        <a class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
+    }
+}

@@ -21,3 +21,9 @@ POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioM
 GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: String)
 GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: String)
 DELETE /usuarios/:id controllers.UsuariosController.borraUsuario(id: String)
+
+GET     /login                  controllers.UsuariosController.login()
+POST    /checkLogin          controllers.UsuariosController.checkLogin()
+
+GET     /registro                  controllers.UsuariosController.registro()
+POST    /checkRegistro          controllers.UsuariosController.checkRegistro()

@@ -36,5 +36,45 @@ public class UsuarioDAO {
         TypedQuery<Usuario> query = JPA.em().createQuery(
                   "select u from Usuario u ORDER BY id", Usuario.class);
         return query.getResultList();
+    }
+
+    /*public static Usuario loginUser(String user, String password){
+      return JPA.em().find(Usuario.class, user);
+    }*/
+
+    public static boolean loginUser(String user, String password) {
+      TypedQuery<Usuario> query = JPA.em().createQuery(
+      "SELECT u FROM Usuario u WHERE u.login = ?1 AND u.password = ?2", Usuario.class);
+      try{
+          Usuario usuario = query.setParameter(1, user)
+                                  .setParameter(2, password)
+                                  .getSingleResult();
       }
+      catch (NoResultException nre){
+            return false;
+      }
+      return true;
+    }
+
+
+    public static int checkRegisterUser(String user, String password) {
+
+      Usuario usuario = new Usuario(user,password);
+      TypedQuery<Usuario> query = JPA.em().createQuery(
+      "SELECT u FROM Usuario u WHERE u.login = ?1", Usuario.class);
+      try{
+          usuario = query.setParameter(1, user).getSingleResult();
+      }
+      catch (NoResultException nre){
+            return 3;
+      }
+
+      if(usuario.password == null){
+        usuario.password = password;
+        UsuarioDAO.update(usuario);
+        return 1;
+      }
+      else
+        return 2;
+    }
 }
