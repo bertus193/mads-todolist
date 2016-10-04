@@ -51,7 +51,7 @@ public class UsuariosService {
     }
 
     public static int registroUsuario(String login, String password, String password2){
-      if(password2 != password){
+      if(!password.equals(password2)){
         return 4;
       }
       int resultado = UsuarioDAO.checkRegisterUser(login, password);

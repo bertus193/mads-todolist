@@ -116,7 +116,8 @@ public class UsuariosController extends Controller {
       Usuario usuario = usuarioForm.get();
 
       if(UsuariosService.loginUsuario(usuario.login, usuario.password)){
-        return ok("Has iniciado sesion correctamente "+usuario.login+". ");
+        flash("usuario", "Has iniciado sesion correctamente "+usuario.login+". ");
+        return redirect(controllers.routes.UsuariosController.listaUsuarios());
       }
       else{
         flash("usuario", "Los datos no se corresponden o puedes no estar registrado");
@@ -144,11 +145,11 @@ public class UsuariosController extends Controller {
       int registro = UsuariosService.registroUsuario(usuario.login, usuario.password, usuario.password2);
 
       if(registro == 1){
-        flash("usuario", "Se has registrado correctamente"+usuario.login+". ");
+        flash("usuario", "Te has registrado correctamente "+usuario.login+". ");
         return redirect(controllers.routes.UsuariosController.listaUsuarios());
       }
       else if(registro == 2){
-        flash("usuario", "Dicho usuario ya está registrado");
+        flash("usuario", "Dicho usuario ya esta registrado");
         return redirect(controllers.routes.UsuariosController.registro());
       }
       else if(registro == 3){
