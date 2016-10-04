@@ -1,10 +1,11 @@
 @(loginForm: Form[Usuario], mensaje: String)
 @main("Login") {
-    @if(mensaje != "") {
-        <div class="alert alert-danger">
-            @mensaje
-        </div>
-    }
+
+      @if(mensaje != null) {
+          <div class="alert alert-danger">
+              @mensaje
+          </div>
+      }
     <h1>Login</h1>
     @helper.form(action = routes.UsuariosController.checkLogin()) {
         <fieldset>

@@ -25,7 +25,7 @@ public class UsuariosController extends Controller {
     public Result listaUsuarios() {
         // Obtenemos el mensaje flash guardado en la petición
         // por el controller grabaUsuario
-        String mensaje = flash("grabaUsuario");
+        String mensaje = flash("usuario");
         List<Usuario> usuarios = UsuariosService.findAllUsuarios();
         return ok(listaUsuarios.render(usuarios, mensaje));
     }
@@ -47,7 +47,7 @@ public class UsuariosController extends Controller {
         Usuario usuario = usuarioForm.get();
         Logger.debug("Usuario a grabar: " + usuario.toString());
         usuario = UsuariosService.grabaUsuario(usuario);
-        flash("grabaUsuario", "El usuario se ha grabado correctamente");
+        flash("usuario", "El usuario se ha grabado correctamente");
         return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
 
@@ -60,7 +60,7 @@ public class UsuariosController extends Controller {
       Usuario usuario = usuarioForm.get();
       Logger.debug("Usuario a modificar: " + usuario.toString());
       usuario = UsuariosService.modificaUsuario(usuario);
-      flash("modificaUsuario", "El usuario se ha modificado correctamente");
+      flash("usuario", "El usuario se ha modificado correctamente");
       return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
 
@@ -95,8 +95,9 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result login() {
+      String mensaje = flash("usuario");
       Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
-      return ok(formLogin.render(formFactory.form(Usuario.class),""));
+      return ok(formLogin.render(formFactory.form(Usuario.class), mensaje));
     }
 
     @Transactional
@@ -108,10 +109,12 @@ public class UsuariosController extends Controller {
       Usuario usuario = usuarioForm.get();
 
       if(UsuariosService.loginUsuario(usuario.login, usuario.password)){
-        return ok("Has iniciado sesion correctamente "+usuario.login+". ");
+        flash("usuario", "Has iniciado sesion correctamente "+usuario.login+". ");
+        return redirect(controllers.routes.UsuariosController.listaUsuarios());
       }
       else{
-        return ok("Los datos no se corresponden o puedes no estar registrado");
+        flash("usuario", "Los datos no se corresponden o puedes no estar registrado");
+        return redirect(controllers.routes.UsuariosController.login());
       }
 
     }
