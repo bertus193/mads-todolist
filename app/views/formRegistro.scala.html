@@ -12,6 +12,7 @@
             <input type="hidden" name="id" value='@registroForm("id").value' >
             @helper.inputText(registroForm("login"), '_label -> "Login de usuario")
             @helper.inputPassword(registroForm("password"), '_label -> "Añadir Contraseña")
+            @helper.inputPassword(registroForm("password2"), '_label -> "Confirmar Contraseña")
         </fieldset>
         <p>
         <input type="submit" class="btn btn-primary" value="Registrarse!">

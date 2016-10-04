@@ -50,7 +50,10 @@ public class UsuariosService {
 
     }
 
-    public static int registroUsuario(String login, String password){
+    public static int registroUsuario(String login, String password, String password2){
+      if(password2 != password){
+        return 4;
+      }
       int resultado = UsuarioDAO.checkRegisterUser(login, password);
       if(resultado != 3 && resultado != 2){
         return 1;

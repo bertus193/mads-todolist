@@ -142,7 +142,7 @@ public class UsuariosController extends Controller {
       }
       Usuario usuario = usuarioForm.get();
 
-      int registro = UsuariosService.registroUsuario(usuario.login, usuario.password);
+      int registro = UsuariosService.registroUsuario(usuario.login, usuario.password, usuario.password2);
 
       if(registro == 1){
         flash("usuario", "e has registrado correctamente "+usuario.login+". ");
@@ -152,8 +152,12 @@ public class UsuariosController extends Controller {
         flash("usuario", "Dicho usuario ya esta registrado");
         return redirect(controllers.routes.UsuariosController.registro());
       }
-      else{
+      else if(registro == 3){
         flash("usuario", "No existe un usuario con dicho nombre");
+        return redirect(controllers.routes.UsuariosController.registro());
+      }
+      else{
+        flash("usuario", "Las contraseñas no coinciden");
         return redirect(controllers.routes.UsuariosController.registro());
       }
     }
