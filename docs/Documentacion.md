@@ -38,5 +38,4 @@ Registro:
   checkRegisterUser comprobará si dicho login existe, en caso de ser falso devolverá 3. En cambio, si el login existe y su contraseña de dicho usuario es null devolverá 1. Si ésta no es null devolverá 2.
 
   Dependiendo del mensaje pasará a listaUsuarios (código 1) o volverá a la pantalla de registro en cualquiera de los otros 3 casos.
-
   
