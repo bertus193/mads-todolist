@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames = {"login"})})
 public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

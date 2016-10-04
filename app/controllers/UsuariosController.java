@@ -32,7 +32,8 @@ public class UsuariosController extends Controller {
 
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevoUsuario() {
-        return ok(formCreacionUsuario.render(formFactory.form(Usuario.class),""));
+        String mensaje = flash("usuario");
+        return ok(formCreacionUsuario.render(formFactory.form(Usuario.class), mensaje));
     }
 
     @Transactional
@@ -47,8 +48,14 @@ public class UsuariosController extends Controller {
         Usuario usuario = usuarioForm.get();
         Logger.debug("Usuario a grabar: " + usuario.toString());
         usuario = UsuariosService.grabaUsuario(usuario);
-        flash("usuario", "El usuario se ha grabado correctamente");
-        return redirect(controllers.routes.UsuariosController.listaUsuarios());
+        if(usuario == null){
+          flash("usuario", "Ya existe un usuario con dicho nombre");
+          return redirect(controllers.routes.UsuariosController.formularioNuevoUsuario());
+        }
+        else{
+          flash("usuario", "El usuario se ha grabado correctamente");
+          return redirect(controllers.routes.UsuariosController.listaUsuarios());
+        }
     }
 
     @Transactional
