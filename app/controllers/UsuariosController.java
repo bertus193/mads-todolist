@@ -129,7 +129,9 @@ public class UsuariosController extends Controller {
     @Transactional
     public Result registro(){
       Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
-      return ok(formRegistro.render(formFactory.form(Usuario.class),""));
+      String mensaje = flash("usuario");
+
+      return ok(formRegistro.render(formFactory.form(Usuario.class),mensaje));
     }
 
     @Transactional
@@ -143,13 +145,16 @@ public class UsuariosController extends Controller {
       int registro = UsuariosService.registroUsuario(usuario.login, usuario.password);
 
       if(registro == 1){
-        return ok("1Te has registrado correctamente"+usuario.login+". ");
+        flash("usuario", "e has registrado correctamente "+usuario.login+". ");
+        return redirect(controllers.routes.UsuariosController.listaUsuarios());
       }
       else if(registro == 2){
-        return ok("2Dicho usuario ya esta registrado");
+        flash("usuario", "Dicho usuario ya esta registrado");
+        return redirect(controllers.routes.UsuariosController.registro());
       }
       else{
-        return ok("3No existe un usuario con dicho nombre");
+        flash("usuario", "No existe un usuario con dicho nombre");
+        return redirect(controllers.routes.UsuariosController.registro());
       }
     }
 

@@ -1,6 +1,6 @@
 @(registroForm: Form[Usuario], mensaje: String)
 @main("Registro") {
-    @if(mensaje != "") {
+    @if(mensaje != null) {
         <div class="alert alert-danger">
             @mensaje
         </div>
