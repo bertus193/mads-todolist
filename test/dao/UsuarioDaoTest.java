@@ -56,4 +56,66 @@ public class UsuarioDaoTest {
             assertNull(usuario);
         });
     }
+
+    @Test
+    public void testEditaUsuario() {
+        Integer id = jpa.withTransaction(() -> {
+            Usuario nuevo = new Usuario("pepe", "pepe");
+            nuevo = UsuarioDAO.create(nuevo);
+            return nuevo.id;
+        });
+
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuarioDAO.find(id);
+            usuario.login = "lol";
+            usuario = UsuarioDAO.update(usuario);
+
+            assertThat(usuario.login, equalTo("lol"));
+        });
+    }
+
+    @Test
+    public void testBorraUsuario() {
+        Integer id = jpa.withTransaction(() -> {
+            Usuario nuevo = new Usuario("pepe", "pepe");
+            nuevo = UsuarioDAO.create(nuevo);
+            return nuevo.id;
+        });
+
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuarioDAO.find(id);
+            assertThat(usuario.login, equalTo("pepe"));
+            return usuario;
+        });
+
+        jpa.withTransaction(() -> {
+            UsuarioDAO.delete(id);
+            Usuario usuario = UsuarioDAO.find(id);
+            assertNull(usuario);
+        });
+    }
+
+    @Test
+    public void testLoginUsuario() {
+        Integer id = jpa.withTransaction(() -> {
+            Usuario nuevo = new Usuario("pepe", "pepe");
+            nuevo = UsuarioDAO.create(nuevo);
+            return nuevo.id;
+        });
+
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuarioDAO.find(id);
+            boolean salida = UsuarioDAO.loginUser(usuario.login,usuario.password);
+            assertThat(salida, equalTo(true));
+        });
+
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuarioDAO.find(id);
+            boolean salida = UsuarioDAO.loginUser(usuario.login,"wrongPassword");
+            assertThat(salida, equalTo(false));
+            
+        });
+    }
+
+
 }
