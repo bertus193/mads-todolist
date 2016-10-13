@@ -28,6 +28,19 @@ public class UsuarioDAO {
         return JPA.em().find(Usuario.class, idUsuario);
     }
 
+    public static Usuario findUsuarioPorLogin(String user) {
+      Usuario usuario = null;
+      TypedQuery<Usuario> query = JPA.em().createQuery(
+      "SELECT u FROM Usuario u WHERE u.login = ?1", Usuario.class);
+      try{
+          usuario = query.setParameter(1, user)
+                                  .getSingleResult();
+      }
+      catch (NoResultException nre){
+      }
+      return usuario;
+    }
+
     public static Usuario update(Usuario usuario) {
         return JPA.em().merge(usuario);
     }
