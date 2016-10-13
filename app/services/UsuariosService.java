@@ -15,7 +15,11 @@ public class UsuariosService {
     }
 
     public static Usuario modificaUsuario(Usuario usuario) {
-      return UsuarioDAO.update(usuario);
+      Usuario existente = UsuarioDAO.findUsuarioPorLogin(usuario.login);
+      if (existente != null && existente.id != usuario.id)
+          throw new UsuariosException("Login ya existente: " + usuario.login);
+      UsuarioDAO.update(usuario);
+      return usuario;
     }
 
     public static Usuario findUsuario(Integer id) {
@@ -23,7 +27,7 @@ public class UsuariosService {
     }
 
     public static Usuario findUsuarioPorLogin(String user) {
-        return findUsuarioPorLogin(user);
+        return UsuarioDAO.findUsuarioPorLogin(user);
     }
 
     public static boolean deleteUsuario(Integer id) {
