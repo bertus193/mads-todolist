@@ -22,6 +22,10 @@ public class UsuariosService {
         return  UsuarioDAO.find(id);
     }
 
+    public static Usuario findUsuarioPorLogin(String user) {
+        return findUsuarioPorLogin(user);
+    }
+
     public static boolean deleteUsuario(Integer id) {
         UsuarioDAO.delete(id);
         Usuario user = UsuariosService.findUsuario(id);

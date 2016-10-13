@@ -42,6 +42,17 @@ public class Usuario {
         if (eMail != null && eMail.isEmpty()) eMail = null;
     }
 
+    public Usuario copy() {
+        Usuario nuevo = new Usuario();
+        nuevo.id = this.id;
+        nuevo.login = this.login;
+        nuevo.password = this.password;
+        nuevo.apellidos = this.apellidos;
+        nuevo.eMail = this.eMail;
+        nuevo.fechaNacimiento = this.fechaNacimiento;
+        return nuevo;
+    }
+
     public String toString() {
         String fechaStr = null;
         if (fechaNacimiento != null) {

@@ -101,7 +101,7 @@ public class UsuarioDaoDbUnitTest {
             List<Usuario> usuarios = UsuarioDAO.findAll();
             Usuario user = usuarios.get(0);
             assertThat(user.eMail, equalTo("juan.gutierrez@gmail.com"));
-            Usuario user = usuarios.get(1);
+            user = usuarios.get(1);
             assertThat(user.eMail, equalTo("anabel.perez@gmail.com"));
         });
     }
