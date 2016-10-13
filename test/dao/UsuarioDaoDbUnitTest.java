@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import models.*;
 
@@ -78,6 +79,44 @@ public class UsuarioDaoDbUnitTest {
         jpa.withTransaction(() -> {
             Usuario usuario = UsuarioDAO.find(2);
             assertThat(usuario.apellidos, equalTo("Anabel Pérez"));
+        });
+    }
+
+    @Test
+    public void testCheckRegisterNoPassword() {
+        jpa.withTransaction(() -> {
+            int salida = UsuarioDAO.checkRegisterUser("juan", "1234");
+            assertThat(salida, equalTo(1));
+        });
+        //Ya se ha registrado
+        jpa.withTransaction(() -> {
+            int salida = UsuarioDAO.checkRegisterUser("juan", "1234");
+            assertThat(salida, equalTo(2));
+        });
+    }
+
+    @Test
+    public void testFindAllUsers() {
+        jpa.withTransaction(() -> {
+            List<Usuario> usuarios = UsuarioDAO.findAll();
+            Usuario user = usuarios.get(0);
+            assertThat(user.eMail, equalTo("juan.gutierrez@gmail.com"));
+            Usuario user = usuarios.get(1);
+            assertThat(user.eMail, equalTo("anabel.perez@gmail.com"));
+        });
+    }
+
+    @Test
+    public void testBorrarFindAll() {
+        jpa.withTransaction(() -> {
+            UsuarioDAO.delete(2);
+            List<Usuario> usuarios = UsuarioDAO.findAll();
+            assertThat(usuarios.size(), equalTo(1));
+
+            Usuario user = new Usuario("hola", "1234");
+            UsuarioDAO.create(user);
+            usuarios = UsuarioDAO.findAll();
+            assertThat(usuarios.size(), equalTo(2));
         });
     }
 
