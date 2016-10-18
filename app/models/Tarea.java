@@ -23,6 +23,14 @@ public class Tarea {
 
     public Tarea() {}
 
+    public Tarea(String descripcion) {
+      this.descripcion = descripcion;
+    }
+
+    public String toString() {
+        return String.format("Tarea id: %s descripcion: %s", id, descripcion);
+    }
+
     public void nulificaAtributos() {
           if (descripcion != null && descripcion.isEmpty()) descripcion = null;
     }
