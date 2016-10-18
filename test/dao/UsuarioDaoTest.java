@@ -113,7 +113,7 @@ public class UsuarioDaoTest {
             Usuario usuario = UsuarioDAO.find(id);
             boolean salida = UsuarioDAO.loginUser(usuario.login,"wrongPassword");
             assertThat(salida, equalTo(false));
-            
+
         });
     }
 

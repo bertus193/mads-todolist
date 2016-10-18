@@ -83,6 +83,23 @@ public class UsuariosServiceTest {
         });
     }
 
+
+    @Test
+    public void testregistroUsuario() {
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            int salida = UsuariosService.registroUsuario(usuario.login, "test", "wrongpass");
+            assertThat(salida, equalTo(4));
+        });
+
+        jpa.withTransaction(() -> {
+          Usuario usuario = UsuariosService.findUsuario(1);
+
+          int salida = UsuariosService.registroUsuario(usuario.login, "correct", "correct");
+          assertThat(salida, equalTo(1));
+        });
+    }
+
     @Test
     public void actualizaUsuarioLanzaExcepcionSiLoginYaExiste() {
         jpa.withTransaction(() -> {
