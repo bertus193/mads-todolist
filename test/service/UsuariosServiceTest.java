@@ -101,6 +101,16 @@ public class UsuariosServiceTest {
     }
 
     @Test
+    public void testloginUsuario() {
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            usuario.password = "1234";
+            boolean a = UsuariosService.loginUsuario(usuario.login, "1234");
+            assertThat(a, equalTo(true));
+        });
+    }
+
+    @Test
     public void actualizaUsuarioLanzaExcepcionSiLoginYaExiste() {
         jpa.withTransaction(() -> {
             Usuario usuario = UsuariosService.findUsuario(2);
