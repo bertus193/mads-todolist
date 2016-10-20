@@ -48,6 +48,8 @@ public class TareasController extends Controller {
           return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
       }
       Tarea tarea = tareaForm.get();
+      Tarea tarea2 = TareasService.findTarea(tarea.id);
+      tarea.usuario = tarea2.usuario;
       Logger.debug("Tarea a modificar: " + tarea.toString());
       tarea = TareasService.modificaTarea(tarea);
       flash("tarea", "La tarea se ha modificado correctamente");

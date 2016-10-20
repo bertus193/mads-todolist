@@ -10,7 +10,7 @@
         <fieldset>
             <legend>Tarea @tareaForm("id").value</legend>
             <input type="hidden" name="id" value='@tareaForm("id").value' >
-            <input type="hidden" name="usuario" value='@tareaForm("usuarioId").value' >
+            <!--<input type="hidden" name="usuario" value='@tareaForm("usuario").value' >-->
             @helper.inputText(tareaForm("descripcion"), '_label -> "Nueva Descripcion")
         </fieldset>
         <p>
