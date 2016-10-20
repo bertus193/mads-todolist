@@ -23,16 +23,23 @@ public class TareasController extends Controller {
     @Transactional
     public Result listaTareas(Integer id) {
         List<Tarea> tarea = TareasService.listaTareasUsuario(id);
-        /*String salida = "";
-        for(Tarea index : tarea){
-          salida += index.toString();
-          salida += " ";
-        }
 
-        return ok(salida);*/
         String mensaje = flash("tareas");
         List<Tarea> tareas = TareasService.listaTareasUsuario(id);
         return ok(listaTareas.render(tareas, mensaje));
+    }
+
+    @Transactional
+    public Result borraTarea(Integer id) {
+      Logger.debug("Tarea a borrar: " + id);
+        String salida;
+        if(TareasService.deleteTarea(id)){
+          salida = "si";
+        }
+        else{
+          salida = "no";
+        }
+        return ok(salida);
     }
 
 
