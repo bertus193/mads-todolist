@@ -28,5 +28,9 @@ POST    /checkLogin                 controllers.UsuariosController.checkLogin()
 GET     /registro                   controllers.UsuariosController.registro()
 POST    /checkRegistro              controllers.UsuariosController.checkRegistro()
 
-GET     /usuarios/:id/tareas        controllers.TareasController.listaTareas(id: Integer)
-DELETE /tareas/:id                  controllers.TareasController.borraTarea(id: Integer)
+GET     /usuarios/:id/tareas                      controllers.TareasController.listaTareas(id: Integer)
+DELETE  /tareas/:id                               controllers.TareasController.borraTarea(id: Integer)
+GET     /usuarios/:idUsuario/tareas/:id/editar    controllers.TareasController.editaTarea(idUsuario: Integer, id: Integer)
+GET     /usuarios/:idUsuario/tareas/modifica      controllers.TareasController.grabaTareaModificado(idUsuario: Integer)
+#GET     /usuarios/:idUsuario/tareas/nuevo         controllers.TareasController.
+#POST    /usuarios/:idUsuario/tareas/nuevo         controllers.TareasController.

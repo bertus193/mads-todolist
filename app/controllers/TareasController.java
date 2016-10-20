@@ -21,12 +21,11 @@ public class TareasController extends Controller {
     @Inject FormFactory formFactory;
 
     @Transactional
-    public Result listaTareas(Integer id) {
-        List<Tarea> tarea = TareasService.listaTareasUsuario(id);
-
+    public Result listaTareas(Integer idUsuario) {
+        List<Tarea> tarea = TareasService.listaTareasUsuario(idUsuario);
         String mensaje = flash("tareas");
-        List<Tarea> tareas = TareasService.listaTareasUsuario(id);
-        return ok(listaTareas.render(tareas, mensaje));
+        List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
+        return ok(listaTareas.render(tareas, mensaje, idUsuario));
     }
 
     @Transactional
@@ -42,6 +41,28 @@ public class TareasController extends Controller {
         return ok(salida);
     }
 
+    @Transactional
+    public Result grabaTareaModificado(Integer idUsuario) {
+      Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
+      if (tareaForm.hasErrors()) {
+          return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
+      }
+      Tarea tarea = tareaForm.get();
+      Tarea tarea2 = TareasService.findTarea(tarea.id);
+      tarea.usuario = tarea2.usuario;
+      Logger.debug("Tarea a modificar: " + tarea.toString());
+      tarea = TareasService.modificaTarea(tarea);
+      flash("tarea", "La tarea se ha modificado correctamente");
+      return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
+    }
+    @Transactional
+    public Result editaTarea(Integer idUsuario, Integer id) {
+      Form<Tarea> tareaForm = formFactory.form(Tarea.class);
+      Tarea tarea = TareasService.findTarea(id);
+      tareaForm = tareaForm.fill(tarea);
+
+      return ok(formModificacionTarea.render(tareaForm, "Edita tarea "+id,idUsuario));
+    }
 
 
 }

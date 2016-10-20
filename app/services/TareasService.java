@@ -30,4 +30,12 @@ public class TareasService {
           return false;
         }
     }
+
+    public static Tarea modificaTarea(Tarea tarea) {
+      Tarea existente = TareaDAO.find(tarea.id);
+      if (existente != null && existente.id != tarea.id)
+          throw new UsuariosException("Tarea ya existente: " + tarea.descripcion);
+      TareaDAO.update(tarea);
+      return tarea;
+    }
 }
