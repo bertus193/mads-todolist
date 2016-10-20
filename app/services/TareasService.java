@@ -15,4 +15,19 @@ public class TareasService {
             throw new UsuariosException("Usuario no encontrado");
         }
     }
+
+    public static Tarea findTarea(Integer id){
+      return TareaDAO.find(id);
+    }
+
+    public static boolean deleteTarea(Integer id) {
+        TareaDAO.delete(id);
+        Tarea tarea = TareasService.findTarea(id);
+        if(tarea != null){
+          return true;
+        }
+        else{
+          return false;
+        }
+    }
 }
