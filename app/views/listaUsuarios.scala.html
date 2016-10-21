@@ -21,6 +21,7 @@
     @for(usuario <- usuarios) {
         <li>
           Usuario @usuario.id: <a href="/usuarios/@usuario.id">@usuario.login</a>
+          <a href="/usuarios/@usuario.id/tareas">(Tareas)</a>
           <a href="/usuarios/@usuario.id/editar">(Editar)</a>
           <a onmouseover="" style="cursor: pointer;" onclick="del('@routes.UsuariosController.borraUsuario(usuario.id)')">
             <!--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> --> (Borrar)</a>
