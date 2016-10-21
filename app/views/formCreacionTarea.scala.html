@@ -1,0 +1,20 @@
+@(tareaForm: Form[Tarea], mensaje: String, idUsuario: Integer)
+@main("Nueva Tarea") {
+    @if(mensaje != null) {
+        <div class="alert alert-danger">
+            @mensaje
+        </div>
+    }
+    <h1>Nueva Tarea</h1>
+    @helper.form(action = routes.TareasController.grabaNuevoTarea(idUsuario)) {
+        <fieldset>
+            <legend>Usuario: @idUsuario</legend>
+            <input type="hidden" name="id" value='@tareaForm("id").value' >
+            <!--<input type="hidden" name="usuario" value='@idUsuario' >-->
+            @helper.inputText(tareaForm("descripcion"), '_label -> "Descripcion")
+        </fieldset>
+        <p>
+        <input type="submit" class="btn btn-primary" value="Guardar">
+        <a class="btn btn-primary" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
+    }
+}

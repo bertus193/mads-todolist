@@ -48,10 +48,9 @@ public class TareasController extends Controller {
           return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
       }
       Tarea tarea = tareaForm.get();
-      Tarea tarea2 = TareasService.findTarea(tarea.id);
-      tarea.usuario = tarea2.usuario;
       Logger.debug("Tarea a modificar: " + tarea.toString());
-      tarea = TareasService.modificaTarea(tarea);
+      
+      tarea = TareasService.modificaTarea(tarea, idUsuario);
       flash("tarea", "La tarea se ha modificado correctamente");
       return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
     }
@@ -62,6 +61,35 @@ public class TareasController extends Controller {
       tareaForm = tareaForm.fill(tarea);
 
       return ok(formModificacionTarea.render(tareaForm, "Edita tarea "+id,idUsuario));
+    }
+
+    // Devuelve un formulario para crear un nuevo usuario
+    public Result formularioNuevoTarea(Integer idUsuario) {
+        String mensaje = flash("Nueva tarea");
+        return ok(formCreacionTarea.render(formFactory.form(Tarea.class), mensaje,idUsuario));
+    }
+
+    @Transactional
+    // Añade un nuevo usuario en la BD y devuelve código HTTP
+    // de redirección a la página de listado de usuarios
+    public Result grabaNuevoTarea(Integer idUsuario) {
+
+        Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
+        if (tareaForm.hasErrors()) {
+            return badRequest(formCreacionTarea.render(tareaForm, "Hay errores en el formulario",idUsuario));
+        }
+
+        Tarea tarea = tareaForm.get();
+        Logger.debug("Usuario a grabar: " + tarea.toString());
+        tarea = TareasService.grabaTarea(tarea,idUsuario);
+        if(tarea == null){
+          flash("Tarea", "Ya existe una Tarea con dicho nombre");
+          return redirect(controllers.routes.TareasController.formularioNuevoTarea(idUsuario));
+        }
+        else{
+          flash("Tarea", "La Tarea se ha grabado correctamente");
+          return redirect(controllers.routes.TareasController.listaTareas(idUsuario));
+        }
     }
 
 
