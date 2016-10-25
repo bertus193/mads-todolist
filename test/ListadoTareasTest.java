@@ -113,4 +113,51 @@ public class ListadoTareasTest {
         }
     });
     }
+
+    @Test
+      public void testgrabaTarea() {
+      jpa.withTransaction(() -> {
+        Usuario usuario = UsuarioDAO.find(2);
+        assertEquals(usuario.tareas.size(), 1);
+
+        Tarea tarea = TareaDAO.find(1);
+        TareasService.grabaTarea(tarea, 2);
+
+        usuario = UsuarioDAO.find(2);
+        assertEquals(usuario.tareas.size(), 2);
+      });
+      }
+
+      @Test
+        public void testeditaTarea() {
+        jpa.withTransaction(() -> {
+          Tarea tarea = TareaDAO.find(1);
+          assertEquals(tarea.descripcion, "Preparar el trabajo del tema 1 de biología");
+          Tarea tarea2 = new Tarea();
+          tarea.descripcion = "Ahora es otra";
+          tarea2 = TareaDAO.update(tarea);
+          assertEquals(tarea2.descripcion, "Ahora es otra");
+        });
+        }
+
+        @Test
+        public void testBorraTarea() {
+            Integer id = jpa.withTransaction(() -> {
+                Tarea tarea = new Tarea("Mi descripcion");
+                tarea = TareaDAO.create(tarea);
+                return tarea.id;
+            });
+
+            jpa.withTransaction(() -> {
+                Tarea tarea = TareaDAO.find(id);
+                assertThat(tarea.descripcion, equalTo("Mi descripcion"));
+                return tarea;
+            });
+
+            jpa.withTransaction(() -> {
+                TareaDAO.delete(id);
+                Tarea tarea = TareaDAO.find(id);
+                assertNull(tarea);
+            });
+        }
 }
